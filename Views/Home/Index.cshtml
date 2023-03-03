@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>KİŞİ AD</th>
+            <th>SİL</th>
+        </tr>
+        @foreach (var Kisi in ViewBag.KisiListe as List<Kisiler>)
+        {
+
+            <tr>
+                <td>@Kisi.KisiName</td>
+                 <td><button kisiId="@(Kisi.KisiId)" class="btn btn-danger silinenkisi">SİL</button></td>
+            </tr>
+
+        }
+    </table>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        document.querySelectorAll(".silinenkisi").forEach((element) => {
+            element.onclick = () => {
+                fetch("/ajax/kisi/delete/" + element.getAttribute("kisiId"), { method: "POST" }).then(x => x.text()).then((y) => {
+                    if (y == "true") {
+                        element.parentElement.parentElement.style.display = "none";
+                    }
+                });
+            }
+        });
+    </script>
+
+}
